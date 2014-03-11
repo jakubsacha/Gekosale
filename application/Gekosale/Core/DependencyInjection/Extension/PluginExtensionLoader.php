@@ -42,9 +42,9 @@ class PluginExtensionLoader
         $files = $finder->files()->in(ROOTPATH . 'application')->name('*Extension.php');
         
         foreach ($files as $file){
-            $namespace = $file->getRelativePath();
+            $namespace = str_replace("/",'\\', $file->getRelativePath());
             $class = $namespace . '\\' . $file->getBasename('.php');
-            
+//            echo $class;
             $extension = new $class();
             if ($extension instanceof Extension){
                 $this->containerBuilder->registerExtension($extension);

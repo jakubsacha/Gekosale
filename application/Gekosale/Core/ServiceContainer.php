@@ -357,7 +357,7 @@ class ServiceContainer extends Container
      */
     protected function getConfigLocatorService()
     {
-        return $this->services['config_locator'] = new \Symfony\Component\Config\FileLocator('D:\\Git\\Gekosale3\\config');
+        return $this->services['config_locator'] = new \Symfony\Component\Config\FileLocator(ROOTPATH.'config');
     }
 
     /**
@@ -532,7 +532,7 @@ class ServiceContainer extends Container
     {
         $this->services['database_manager'] = $instance = new \Illuminate\Database\Capsule\Manager();
 
-        $instance->addConnection(array('driver' => 'mysql', 'host' => 'localhost', 'database' => 'gekosale3', 'username' => 'root', 'password' => '', 'charset' => 'utf8', 'collation' => 'utf8_unicode_ci', 'prefix' => ''));
+        $instance->addConnection(array('driver' => 'mysql', 'host' => 'localhost', 'database' => 'gekosale_2', 'username' => 'root', 'password' => 'qwe123', 'charset' => 'utf8', 'collation' => 'utf8_unicode_ci', 'prefix' => ''));
         $instance->setAsGlobal();
         $instance->bootEloquent();
 
@@ -622,19 +622,19 @@ class ServiceContainer extends Container
         $instance->addSubscriberService('router.subscriber', 'Symfony\\Component\\HttpKernel\\EventListener\\RouterListener');
         $instance->addSubscriberService('locale.listener', 'Symfony\\Component\\HttpKernel\\EventListener\\LocaleListener');
         $instance->addSubscriberService('template.subscriber', 'Gekosale\\Core\\Template\\Subscriber\\Template');
-        $instance->addSubscriberService('admin_menu.subscriber', 'Gekosale\\Plugin\\AdminMenu\\Event\\AdminMenuEventSubscriber');
-        $instance->addSubscriberService('availability.subscriber', 'Gekosale\\Plugin\\Availability\\Event\\AvailabilityEventSubscriber');
-        $instance->addSubscriberService('category.subscriber', 'Gekosale\\Plugin\\Category\\Event\\CategoryEventSubscriber');
-        $instance->addSubscriberService('company.subscriber', 'Gekosale\\Plugin\\Company\\Event\\CompanyEventSubscriber');
-        $instance->addSubscriberService('contact.subscriber', 'Gekosale\\Plugin\\Contact\\Event\\ContactEventSubscriber');
-        $instance->addSubscriberService('currency.subscriber', 'Gekosale\\Plugin\\Currency\\Event\\CurrencyEventSubscriber');
         $instance->addSubscriberService('deliverer.subscriber', 'Gekosale\\Plugin\\Deliverer\\Event\\DelivererEventSubscriber');
-        $instance->addSubscriberService('language.subscriber', 'Gekosale\\Plugin\\Language\\Event\\LanguageEventSubscriber');
-        $instance->addSubscriberService('plugin_manager.subscriber', 'Gekosale\\Plugin\\PluginManager\\Event\\PluginManagerEventSubscriber');
+        $instance->addSubscriberService('currency.subscriber', 'Gekosale\\Plugin\\Currency\\Event\\CurrencyEventSubscriber');
+        $instance->addSubscriberService('company.subscriber', 'Gekosale\\Plugin\\Company\\Event\\CompanyEventSubscriber');
         $instance->addSubscriberService('producer.subscriber', 'Gekosale\\Plugin\\Producer\\Event\\ProducerEventSubscriber');
-        $instance->addSubscriberService('shop.subscriber', 'Gekosale\\Plugin\\Shop\\Event\\ShopEventSubscriber');
-        $instance->addSubscriberService('tax.subscriber', 'Gekosale\\Plugin\\Tax\\Event\\TaxEventSubscriber');
+        $instance->addSubscriberService('admin_menu.subscriber', 'Gekosale\\Plugin\\AdminMenu\\Event\\AdminMenuEventSubscriber');
+        $instance->addSubscriberService('contact.subscriber', 'Gekosale\\Plugin\\Contact\\Event\\ContactEventSubscriber');
         $instance->addSubscriberService('unit.subscriber', 'Gekosale\\Plugin\\Unit\\Event\\UnitEventSubscriber');
+        $instance->addSubscriberService('plugin_manager.subscriber', 'Gekosale\\Plugin\\PluginManager\\Event\\PluginManagerEventSubscriber');
+        $instance->addSubscriberService('category.subscriber', 'Gekosale\\Plugin\\Category\\Event\\CategoryEventSubscriber');
+        $instance->addSubscriberService('language.subscriber', 'Gekosale\\Plugin\\Language\\Event\\LanguageEventSubscriber');
+        $instance->addSubscriberService('shop.subscriber', 'Gekosale\\Plugin\\Shop\\Event\\ShopEventSubscriber');
+        $instance->addSubscriberService('availability.subscriber', 'Gekosale\\Plugin\\Availability\\Event\\AvailabilityEventSubscriber');
+        $instance->addSubscriberService('tax.subscriber', 'Gekosale\\Plugin\\Tax\\Event\\TaxEventSubscriber');
 
         return $instance;
     }
@@ -960,7 +960,7 @@ class ServiceContainer extends Container
      */
     protected function getRouterService()
     {
-        return $this->services['router'] = new \Symfony\Component\Routing\Router($this->get('router.loader'), '', array('cache_dir' => 'D:\\Git\\Gekosale3\\var', 'generator_cache_class' => 'GekosaleUrlGenerator', 'matcher_cache_class' => 'GekosaleUrlMatcher'));
+        return $this->services['router'] = new \Symfony\Component\Routing\Router($this->get('router.loader'), '', array('cache_dir' => ROOTPATH.'var', 'generator_cache_class' => 'GekosaleUrlGenerator', 'matcher_cache_class' => 'GekosaleUrlMatcher'));
     }
 
     /**
@@ -1207,7 +1207,7 @@ class ServiceContainer extends Container
         $g = $this->get('twig.extension.asset');
         $h = $this->get('twig.extension.datagrid');
 
-        $this->services['twig'] = $instance = new \Twig_Environment($this->get('twig.loader.front'), array('cache' => 'D:\\Git\\Gekosale3\\var/cache', 'auto_reload' => true, 'autoescape' => true, 'debug' => true));
+        $this->services['twig'] = $instance = new \Twig_Environment($this->get('twig.loader.front'), array('cache' => '/var/www/Gekosale/var/cache', 'auto_reload' => true, 'autoescape' => true, 'debug' => true));
 
         $instance->addExtension($a);
         $instance->addExtension($b);
@@ -1357,7 +1357,7 @@ class ServiceContainer extends Container
      */
     protected function getTwig_Loader_AdminService()
     {
-        return $this->services['twig.loader.admin'] = new \Twig_Loader_Filesystem(array(0 => 'D:\\Git\\Gekosale3\\design/templates'));
+        return $this->services['twig.loader.admin'] = new \Twig_Loader_Filesystem(array(0 => '/var/www/Gekosale/design/templates'));
     }
 
     /**
@@ -1370,7 +1370,7 @@ class ServiceContainer extends Container
      */
     protected function getTwig_Loader_FrontService()
     {
-        return $this->services['twig.loader.front'] = new \Twig_Loader_Filesystem(array(0 => 'D:\\Git\\Gekosale3\\design/frontend/Gekosale/templates'));
+        return $this->services['twig.loader.front'] = new \Twig_Loader_Filesystem(array(0 => '/var/www/Gekosale/design/frontend/Gekosale/templates'));
     }
 
     /**
@@ -1515,27 +1515,27 @@ class ServiceContainer extends Container
     protected function getDefaultParameters()
     {
         return array(
-            'application.root_path' => 'D:\\Git\\Gekosale3\\',
+            'application.root_path' => '/var/www/Gekosale/',
             'application.debug_mode' => true,
             'locale' => 'pl_PL',
             'timezone' => 'Europe/Warsaw',
             'application.namespaces' => array(
                 0 => 'Gekosale',
             ),
-            'application.design_path' => 'D:\\Git\\Gekosale3\\design',
+            'application.design_path' => ROOTPATH.'design',
             'admin.themes' => array(
-                0 => 'D:\\Git\\Gekosale3\\design/templates',
+                0 => ROOTPATH.'design/templates',
             ),
             'front.themes' => array(
-                0 => 'D:\\Git\\Gekosale3\\design/frontend/Gekosale/templates',
+                0 => ROOTPATH.'design/frontend/Gekosale/templates',
             ),
             'propel.config' => array(
-                'dsn' => 'mysql:host=localhost;dbname=gekosale3',
+                'dsn' => 'mysql:host=localhost;dbname=gekosale_2',
                 'user' => 'root',
                 'password' => '',
             ),
             'router.options' => array(
-                'cache_dir' => 'D:\\Git\\Gekosale3\\var',
+                'cache_dir' => ROOTPATH.'var',
                 'generator_cache_class' => 'GekosaleUrlGenerator',
                 'matcher_cache_class' => 'GekosaleUrlMatcher',
             ),
@@ -1549,9 +1549,9 @@ class ServiceContainer extends Container
             'db.config' => array(
                 'driver' => 'mysql',
                 'host' => 'localhost',
-                'database' => 'gekosale3',
+                'database' => 'gekosale_2',
                 'username' => 'root',
-                'password' => '',
+                'password' => 'qwe123',
                 'charset' => 'utf8',
                 'collation' => 'utf8_unicode_ci',
                 'prefix' => '',
